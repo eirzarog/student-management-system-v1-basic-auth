@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Student</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        label span {
+            color: #f44336;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .error {
+            color: #f44336;
+            font-size: 0.85em;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .error-input {
+            border-color: #f44336 !important;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+            transform: translateY(-2px);
+        }
+
+        .icon {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>➕ Add New Student</h1>
+        <p>Fill in the student details below</p>
+    </div>
+
+    <div class="form-content">
+        <form th:action="@{/students/add}" th:object="${student}" method="post">
+            <div class="form-group">
+                <label for="firstName">First Name <span>*</span></label>
+                <input type="text"
+                       id="firstName"
+                       name="firstName"
+                       th:field="*{firstName}"
+                       th:classappend="${#fields.hasErrors('firstName')} ? 'error-input' : ''"
+                       placeholder="Enter first name"
+                       required>
+                <span class="error" th:if="${#fields.hasErrors('firstName')}"
+                      th:errors="*{firstName}">Error</span>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name <span>*</span></label>
+                <input type="text"
+                       id="lastName"
+                       name="lastName"
+                       th:field="*{lastName}"
+                       th:classappend="${#fields.hasErrors('lastName')} ? 'error-input' : ''"
+                       placeholder="Enter last name"
+                       required>
+                <span class="error" th:if="${#fields.hasErrors('lastName')}"
+                      th:errors="*{lastName}">Error</span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email <span>*</span></label>
+                <input type="email"
+                       id="email"
+                       name="email"
+                       th:field="*{email}"
+                       th:classappend="${#fields.hasErrors('email')} ? 'error-input' : ''"
+                       placeholder="student@example.com"
+                       required>
+                <span class="error" th:if="${#fields.hasErrors('email')}"
+                      th:errors="*{email}">Error</span>
+            </div>
+
+            <div class="form-group">
+                <label for="course">Course <span>*</span></label>
+                <input type="text"
+                       id="course"
+                       name="course"
+                       th:field="*{course}"
+                       th:classappend="${#fields.hasErrors('course')} ? 'error-input' : ''"
+                       placeholder="e.g., Computer Science"
+                       required>
+                <span class="error" th:if="${#fields.hasErrors('course')}"
+                      th:errors="*{course}">Error</span>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">
+                    <span class="icon">💾</span> Save Student
+                </button>
+                <a th:href="@{/students/students}" class="btn btn-secondary">
+                    <span class="icon">❌</span> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
